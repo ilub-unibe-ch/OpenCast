@@ -57,7 +57,7 @@ class EventAPIRepository implements EventRepository
     public function fetch(string $identifier): Event
     {
         $data = json_decode(xoctRequest::root()->events($identifier)
-            ->parameter('withmetadata', true)
+            ->parameter('withmetadata', false)
             ->parameter('withacl', true)
             ->parameter('withpublications', true)
             ->parameter('withscheduling', true)
