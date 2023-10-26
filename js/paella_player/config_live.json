@@ -370,11 +370,12 @@
         "siteId": "1"
       },
       "org.opencast.usertracking.MatomoSaverPlugIn": {
-        "enabled": false,
-        "server": "http://localhost/piwik/",
+        "enabled": true,
+        "server": "https://webstats.opencast.unibe.ch/",
+        "tracking_client_name": "matomo",
         "site_id": 1,
         "heartbeat": 30,
-        "client_id": "Paella Player"
+        "client_id": "ILIAS Paella Player Live"
       },
       "es.teltek.paella.usertracking.xAPISaverPlugin": {
         "enabled": false,
