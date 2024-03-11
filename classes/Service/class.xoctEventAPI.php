@@ -121,7 +121,7 @@ class xoctEventAPI
 
         $acl = $this->acl_utils->getStandardRolesACL();
 
-        $this->event_repository->schedule(new ScheduleEventRequest(
+        $response = $this->event_repository->schedule(new ScheduleEventRequest(
             new ScheduleEventRequestPayload(
                 $metadata->withoutEmptyFields(),
                 $acl,
@@ -131,6 +131,7 @@ class xoctEventAPI
         ));
 
         $event = new Event();
+        $metadata->getField(MDFieldDefinition::F_IDENTIFIER)->setValue($response);
         $event->setMetadata($metadata);
         $event->setAcl($acl);
         $event->setScheduling($scheduling);
@@ -191,11 +192,25 @@ class xoctEventAPI
             }
         }
 
+        $workflow_parameters = $this->workflow_param_repository->getGeneralAutomaticallySetParameters();
+        if (is_array($data['workflow_parameters'])) {
+            $workflow_parameters = $workflow_parameters + $data['workflow_parameters'];
+        }
+
+        $workflow_parameters = array_map(function ($value) {
+            return $value == 1 ? 'true' : 'false';
+        }, $workflow_parameters);
+        $processing = new Processing(
+            PluginConfig::getConfig(PluginConfig::F_WORKFLOW),
+            (object)$workflow_parameters
+        );
+
         if (count($data)) { // this prevents an update, if only 'online' has changed
             $this->event_repository->update(new UpdateEventRequest($event_id, new UpdateEventRequestPayload(
                 $metadata,
                 null,
-                $scheduling
+                $scheduling,
+                $processing
             )));
         }
 

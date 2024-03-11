@@ -191,7 +191,10 @@ class Event
     {
         return $this->getMetadata()->getField('startDate')->getValue();
     }
-
+    public function getDuration(): int
+    {
+        return (int) $this->getMetadata()->getField('duration')->getValue();
+    }
 
     /**
      * this should only be called on scheduled events
