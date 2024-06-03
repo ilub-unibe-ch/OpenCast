@@ -26,6 +26,8 @@ use ILIAS\UI\Implementation\Component\Input\Field\ChunkedFile;
 use srag\Plugins\Opencast\Model\Metadata\MetadataField;
 use srag\Plugins\Opencast\Model\Metadata\Definition\MDDataType;
 use DateTimeZone;
+use srag\Plugins\Opencast\Util\Locale\LocaleTrait;
+use srag\Plugins\Opencast\DI\OpencastDIC;
 
 /**
  * Responsible for creating forms to upload, schedule or edit an event.
@@ -34,9 +36,12 @@ use DateTimeZone;
  */
 class EventFormBuilder
 {
+    use LocaleTrait;
+
     public const F_ACCEPT_EULA = 'accept_eula';
     public const MB_IN_B = 1000 * 1000;
     public const DEFAULT_UPLOAD_LIMIT_IN_MIB = 512;
+    public const F_SUBTITLE_SECTION = 'subtitles';
 
     private static $accepted_video_mimetypes = [
         MimeTypeUtil::VIDEO__AVI,
@@ -126,6 +131,10 @@ class EventFormBuilder
      * @var Container
      */
     private $dic;
+    /**
+     * @var OpencastDIC
+     */
+    private $opencast_dic;
 
     public function __construct(
         UIFactory $ui_factory,
@@ -149,6 +158,7 @@ class EventFormBuilder
         $this->schedulingFormItemBuilder = $schedulingFormItemBuilder;
         $this->seriesRepository = $seriesRepository;
         $this->dic = $dic;
+        $this->opencast_dic = OpencastDIC::getInstance();
     }
 
     /**
@@ -213,6 +223,51 @@ class EventFormBuilder
             'file' => $file_section,
             'metadata' => $this->formItemBuilder->create_section($as_admin),
         ];
+
+        // Subtitles.
+        $subtitles_enabled = PluginConfig::getConfig(PluginConfig::F_SUBTITLE_UPLOAD_ENABLED) ?? false;
+        $accepted_subtitle_mimetypes = PluginConfig::getConfig(PluginConfig::F_SUBTITLE_ACCEPTED_MIMETYPES) ?? [];
+        if ($subtitles_enabled && !empty($accepted_subtitle_mimetypes)) {
+            $subtitles_section_inputs = [];
+            // Get the languages.
+            $supported_languages_str = PluginConfig::getConfig(PluginConfig::F_SUBTITLE_LANGS) ?? '';
+            $supported_languages_arr = $this->opencast_dic->subtitle_config_form_builder()
+                                            ->formattedLanguagesToArray($supported_languages_str);
+            foreach ($supported_languages_arr as $lang_code => $lang_name) {
+                $no_chunked_upload_handler = clone $this->uploadHandler;
+                $no_chunked_upload_handler->toggleChunkedUploadSupport(false);
+                $subtitle_file_input = ChunkedFile::getInstance(
+                    $no_chunked_upload_handler,
+                    $this->getLocaleString('md_lang_list_' . $lang_code, '', $lang_name),
+                    $this->plugin->txt('event_supported_filetypes') . ': ' . implode(', ', $accepted_subtitle_mimetypes)
+                )->withRequired(false);
+                $subtitle_file_input = $subtitle_file_input->withAcceptedMimeTypes($accepted_subtitle_mimetypes)
+                ->withRequired(false)
+                // Only 1 file per one subtitle is allowed!
+                ->withMaxFiles(1)
+                ->withMaxFileSize($upload_limit)
+                // Setting ChunkSize as upload limit, in order to prevent unwanted chunking.
+                ->withChunkSizeInBytes($upload_limit)
+                ->withAdditionalTransformation(
+                    $this->refinery_factory->custom()->transformation(
+                        function ($file) use ($upload_storage_service): array {
+                            $id = $file[0] ?? '';
+                            return $upload_storage_service->getFileInfo($id);
+                        }
+                    )
+                );
+
+                $subtitles_section_inputs[$lang_code] = $subtitle_file_input;
+            }
+            // Last check to provide the subtitle section if languages are configured correctly.
+            if (!empty($subtitles_section_inputs)) {
+                $subtitles_section = $factory->section(
+                    $subtitles_section_inputs,
+                    $this->plugin->txt('upload_ui_subtitle_section')
+                );
+                $inputs[self::F_SUBTITLE_SECTION] = $subtitles_section;
+            }
+        }
         if (!is_null($workflow_param_section)) {
             $inputs['workflow_configuration'] = $workflow_param_section;
         }
