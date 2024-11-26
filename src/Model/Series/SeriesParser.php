@@ -9,10 +9,7 @@ use stdClass;
 
 class SeriesParser
 {
-    /**
-     * @var ACLParser
-     */
-    private $ACLParser;
+    private ACLParser $ACLParser;
 
     public function __construct(ACLParser $ACLParser)
     {

@@ -36,34 +36,13 @@ class xoctPlayerGUI extends xoctGUI
 
     public const ROLE_MASTER = "presenter";
     public const ROLE_SLAVE = "presentation";
-    /**
-     * @var bool
-     */
-    private $force_no_chat;
-    /**
-     * @var string|null
-     */
-    private $identifier;
-    /**
-     * @var ObjectSettings
-     */
-    protected $object_settings;
-    /**
-     * @var PublicationUsageRepository
-     */
-    protected $publication_usage_repository;
-    /**
-     * @var EventRepository
-     */
-    private $event_repository;
-    /**
-     * @var PaellaConfigService
-     */
-    private $paellaConfigService;
-    /**
-     * @var \ilObjUser
-     */
-    private $user;
+    private bool $force_no_chat;
+    private ?string $identifier;
+    private ObjectSettings $object_settings;
+    private PublicationUsageRepository $publication_usage_repository;
+    private EventRepository $event_repository;
+    private PaellaConfigService $paellaConfigService;
+    private \ilObjUser $user;
 
     public function __construct(
         EventRepository $event_repository,

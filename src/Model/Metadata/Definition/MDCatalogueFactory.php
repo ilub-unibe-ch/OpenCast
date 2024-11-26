@@ -6,14 +6,8 @@ namespace srag\Plugins\Opencast\Model\Metadata\Definition;
 
 class MDCatalogueFactory
 {
-    /**
-     * @var MDCatalogue
-     */
-    private $event_catalogue;
-    /**
-     * @var MDCatalogue
-     */
-    private $series_catalogue;
+    private ?MDCatalogue $event_catalogue = null;
+    private ?MDCatalogue $series_catalogue = null;
 
     final public function __construct()
     {
@@ -22,7 +16,7 @@ class MDCatalogueFactory
     public function event(): MDCatalogue
     {
         return $this->event_catalogue ?? $this->event_catalogue = new MDCatalogue([
-            new MDFieldDefinition(MDFieldDefinition::F_TITLE, MDDataType::text(), false, true),
+            new MDFieldDefinition(MDFieldDefinition::F_TITLE, MDDataType::text(), false, true, true), // Title is Mandatory for Events
             new MDFieldDefinition(MDFieldDefinition::F_SUBJECTS, MDDataType::text_array(), false, false),
             new MDFieldDefinition(MDFieldDefinition::F_DESCRIPTION, MDDataType::text_long(), false, false),
             new MDFieldDefinition(MDFieldDefinition::F_RIGHTS_HOLDER, MDDataType::text(), false, false),
@@ -44,7 +38,7 @@ class MDCatalogueFactory
     public function series(): MDCatalogue
     {
         return $this->series_catalogue ?? $this->series_catalogue = new MDCatalogue([
-            new MDFieldDefinition(MDFieldDefinition::F_TITLE, MDDataType::text(), false, true),
+            new MDFieldDefinition(MDFieldDefinition::F_TITLE, MDDataType::text(), false, true, true), // Title is Mandatory for Series
             new MDFieldDefinition(MDFieldDefinition::F_DESCRIPTION, MDDataType::text_long(), false, false),
             new MDFieldDefinition(MDFieldDefinition::F_RIGHTS_HOLDER, MDDataType::text(), false, false),
             new MDFieldDefinition(MDFieldDefinition::F_CREATED_BY, MDDataType::text(), true, false),

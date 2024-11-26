@@ -20,31 +20,17 @@ use ActiveRecord;
  */
 class SeriesWorkflowParameterRepository
 {
-    /**
-     * @var self
-     */
     protected static $instance;
-    /**
-     * @var array
-     */
-    protected $parameters;
-    /**
-     * @var Factory
-     */
-    private $ui_factory;
-    /**
-     * @var RefineryFactory
-     */
-    private $refinery;
-    /**
-     * @var WorkflowParameterParser
-     */
-    private $workflowParameterParser;
+    protected array $parameters = [];
+    private ?\ILIAS\UI\Factory $ui_factory;
+    private ?RefineryFactory $refinery;
+    private WorkflowParameterParser $workflowParameterParser;
+
 
     public function __construct(
-        Factory $ui_factory,
-        RefineryFactory $refinery,
-        WorkflowParameterParser $workflowParameterParser
+        WorkflowParameterParser $workflowParameterParser,
+        ?Factory $ui_factory,
+        ?RefineryFactory $refinery
     ) {
         $this->ui_factory = $ui_factory;
         $this->refinery = $refinery;
@@ -57,12 +43,12 @@ class SeriesWorkflowParameterRepository
      */
     public static function getInstance()
     {
-        if (self::$instance == null) {
+        if (self::$instance === null) {
             global $DIC;
             self::$instance = new self(
+                new WorkflowParameterParser(),
                 $DIC->ui()->factory(),
-                $DIC->refinery(),
-                new WorkflowParameterParser()
+                $DIC->refinery()
             );
         }
         return self::$instance;
@@ -343,7 +329,7 @@ class SeriesWorkflowParameterRepository
     {
         return $this->ui_factory->input()->field()->section($items, $workflow_section_title)
                                 ->withAdditionalTransformation(
-                                    $this->refinery->custom()->transformation(function ($vs) {
+                                    $this->refinery->custom()->transformation(function (array $vs): array {
                                         $vs['object'] = $this->workflowParameterParser->configurationFromFormData($vs);
                                         return $vs;
                                     })

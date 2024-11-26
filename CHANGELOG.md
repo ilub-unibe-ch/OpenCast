@@ -1,5 +1,42 @@
 # Changelog
 
+## Version 8.2.8
+- [FIX] array access, see #369
+- [FIX] introduce "title" as mandatory MD for series and events
+
+## Version 8.2.7
+- [FIX] make the straightToPublishing title dynamic, #367
+
+## Version 8.2.6
+- [FIX] Memorization of last position in video is not per video #289
+
+## Version 8.2.5
+- Fix of #341, fix order field when $sort_field is startDate
+
+## Version 8.2.4
+- [FIX] fix broken ACL xml and startDate xml metadata when using ingest upload
+- [FIX] controlling chat visibility: only when event is/was live!
+- [FIX] player not shown if chat enabled
+- [FIX] missing Init import, fixes #357
+
+## Version 8.2.3
+- [FIX] removed no longer used update check
+- Fix of #341
+
+## Version 8.2.2
+- [FIX] An error occurred while communicating with the OpenCast-Server: OcEventsApi -> getAll
+
+## Version 8.2.1
+- [FIX] caching issue with new container
+- [FIX] installation issues using cli setup
+
+## Version 8.2.0
+- [FEATURE] new internal Plugin API for UI Components needed in other
+  PLugins such as InteractiveVideo or PageComponent
+- [IMPROVEMENT] a lot more type declarations in the code
+- [IMPROVEMENT] new Dependency Container
+- [FIX] fixed missing identifier in event metadata
+
 ## Version 8.1.4
 - also disable restorePlaybackRate for buffered livestreams
 - disable restorePlaybackRate feature for livestreams
