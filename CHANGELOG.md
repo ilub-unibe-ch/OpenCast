@@ -2,6 +2,7 @@
 
 ## Version 9.0.0
 - [FEATURE] Support for ILIAS 9
+- All fixes from version 8.2.2 - 8.3.1, see Release Notes of release_8 Branch.
 - Fix of #341, fix order field when $sort_field is startDate
 - [FIX] fix broken ACL xml and startDate xml metadata when using ingest upload
 - [FIX] controlling chat visibility: only when event is/was live!
