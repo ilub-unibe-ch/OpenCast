@@ -299,7 +299,7 @@ invitations_back#:#Zurück
 invitations_header#:#Zugriffsrechte erteilen
 invitations_none_available#:#Keine verfügbar
 invitations_invite_all#:#Alle hinzufügen
-obj_xoct#:#Opencast
+obj_xoct#:#Video (Opencast Serie)
 objs_xoct#:#Opencast
 perm_upload#:#Upload
 perm_edit_videos#:#Videos Editieren

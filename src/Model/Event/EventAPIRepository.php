@@ -65,7 +65,7 @@ class EventAPIRepository implements EventRepository, Request
         $data = $this->api->routes()->eventsApi->get(
             $identifier,
             [
-                'withmetadata' => true,
+                'withmetadata' => false,
                 'withacl' => true,
                 'withpublications' => true,
                 'withscheduling' => true,

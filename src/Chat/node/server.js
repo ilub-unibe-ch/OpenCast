@@ -75,7 +75,7 @@ const moment = require('moment');
 const index_file = fs.readFileSync(__dirname + '/templates/index.ejs', 'utf8');
 const QueryUtils = require('./modules/QueryUtils.js');
 QueryUtils.init(client_id, ilias_installation_dir);
-QueryUtils.writeChatServerConfig(ip, port, protocol, host);
+//QueryUtils.writeChatServerConfig(ip, port, protocol, host);
 const express = require('express');
 const app = express();
 

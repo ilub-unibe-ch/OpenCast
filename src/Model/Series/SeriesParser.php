@@ -18,7 +18,9 @@ class SeriesParser
         $series = new Series();
         $series->setIdentifier($data->identifier);
         $series->setAccessPolicies($this->ACLParser->parseAPIResponse($data->acl ?? []));
-        $series->setMetadata($data->metadata ?? []);
+        if (isset($data->metadata)) {
+            $series->setMetadata($data->metadata);
+        }
         if (isset($data->theme) && is_int($data->theme)) {
             $series->setTheme($data->theme);
         }

@@ -40,7 +40,15 @@
                 "enabled": false
             },
             "es.upv.paella.playbackRateButton": {
-                "enabled": false
+                "enabled": true,
+                "side": "left",
+                "order": 4,
+                "showIcon": false,
+                "rates": [0.75, 1, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0],
+                "menuTitle": "Playback Rate",
+                "tabIndex": 4,
+                "popUpType": "no-modal"
+
             },
             "es.upv.paella.keyboardShortcutsHelp": {
                 "enabled": false
