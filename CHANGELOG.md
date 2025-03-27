@@ -1,5 +1,23 @@
 # Changelog
 
+## Version 9.0.5
+- make sure chat activation gets default value from config when creating new series
+
+## Version 9.0.4
+- [FIX] In plugin configuration: Accessing tab "Metadata" not possible
+- [FIX]  Opencast objects do not work if stream security is enabled
+
+## Version 9.0.3
+- [FIX] Upload without subtitle-file or thumbnail-image fails with an error
+- [FIX] removed special case while deleting objects from repository
+
+## Version 9.0.2
+- [FIX] call database on null when using Plugin-API #384
+
+## Version 9.0.1
+- [FIX] #387: fix playback bar visibility via paella-core upgrade fixes #383: 
+  support multi-quality via new paella plugin
+
 ## Version 9.0.0
 - [FEATURE] Support for ILIAS 9
 - All fixes from version 8.2.2 - 8.3.1, see Release Notes of release_8 Branch.
