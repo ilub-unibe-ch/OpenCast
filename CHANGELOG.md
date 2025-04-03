@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 8.3.5
+- [FIX] clear series cache after renaming series, #381
+
+## Version 8.3.4
+- [FIX] Sorting for "Series" ist not possible
+
+## Version 8.3.3
+- make sure chat activation gets default value from config when creating new series
+- add ACL notation and hidden seriesField to Studio link, fixes #382
+
+## Version 8.3.2
+- [FIX] partial fix for issue 386, prevent copy items in manage view of course
+- [FIX] #387: fix playback bar visibility via paella-core upgrade fixes #383: 
+  support multi-quality via new paella plugin
+
 ## Version 8.3.1
 - [FIX] #384: remove parameter not needed
 
@@ -430,3 +445,4 @@
 
 
 ## Version 1.0.0
+
