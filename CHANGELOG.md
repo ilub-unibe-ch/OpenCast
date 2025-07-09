@@ -1,5 +1,27 @@
 # Changelog
 
+## Version 9.2.1
+- [FIX] Search Endpoint Response Conflict resolved, PR #437, Issue #429
+
+## Version 9.2.0
+- [FEATURE] Redesigned Screens in OpencastPageComponent
+
+## Version 9.1.0
+- [FIX] enhance checkbox handling in StartWorkflow and WorkflowDBRepository
+- [FEATURE] Add JSON configuration panel support and update related workflows
+
+## Version 9.0.8
+- [FIX] add margin between horizontal buttons
+- [FIX] adding legacy CSS for info-buttons
+- upgrade to oc-php-lib v1.9.0
+
+## Version 9.0.7
+- [FIX] clear series cache after renaming series, #381
+
+## Version 9.0.6
+- [FIX] several issues with permission templates
+- [FIX] Sorting for "Series" ist not possible
+
 ## Version 9.0.5
 - make sure chat activation gets default value from config when creating new series
 
@@ -431,3 +453,4 @@
 
 
 ## Version 1.0.0
+
