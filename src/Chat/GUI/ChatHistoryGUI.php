@@ -69,17 +69,6 @@ class ChatHistoryGUI
                 $profile_picture_path
             ) ? $profile_picture_path : './templates/default/images/placeholder/no_photo_xsmall.jpg';
             $avatar = $user->getAvatar();
-            try {
-                $exception = false;
-                $avatar->getPicturePath();
-            } catch (\Exception $e) {
-                $exception = true;
-            }
-            if (!$exception) {
-                if ($avatar_pic = $avatar->getPicturePath()) {
-                    $picture_path = $avatar_pic;
-                }
-            }
             $template->setVariable('PROFILE_PICTURE_PATH', $picture_path);
             $template->parseCurrentBlock();
         }
