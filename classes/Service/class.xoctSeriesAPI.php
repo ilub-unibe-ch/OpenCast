@@ -118,6 +118,7 @@ class xoctSeriesAPI
         $objectSettings->setUseAnnotations($additional_data['use_annotations'] ?? false);
         $objectSettings->setPermissionPerClip($additional_data['permission_per_clip'] ?? false);
         $objectSettings->setPermissionAllowSetOwn($additional_data['permission_allow_set_own'] ?? false);
+        $objectSettings->setChatActive($additional_data['chat_active'] ?? false);
 
         $metadata = $this->metadataFactory->series();
         $metadata->getField(MDFieldDefinition::F_TITLE)->setValue($title);
