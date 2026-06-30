@@ -504,6 +504,31 @@
         "userTracking"
       ]
     },
+        "es.upv.paella.matomo.userTrackingDataPlugin": {
+      "enabled": true,
+      "context": ["userTracking"],
+      "server": "https://webstats.opencast.unibe.ch/",
+      "siteId": "1",
+      "trackerUrl": {
+        "php": "3012.php",
+        "js": "3012.js"
+      },
+      "matomoGlobalLoaded": false,
+      "cookieType": "tracking",
+      "disableAlwaysUseSendBeacon": true,
+      "mediaAnalyticsTitle": "${metadata.videoid}",
+      "logUserId": false,
+      "events": {
+        "category": "ILIAS PaellaPlayer",
+        "action": "${event}",
+        "name": "${eventData}"
+      },
+      "customDimensions": {
+        "1": "${metadata.videoid}",
+        "2": "${metadata.seriesid}",
+        "3": "${metadata.title}"
+      }
+    },
     "es.upv.paella.liveStreamingProgressIndicator": {
       "enabled": true,
       "layer": "foreground",
