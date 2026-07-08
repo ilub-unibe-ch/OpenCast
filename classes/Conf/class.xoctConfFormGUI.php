@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 use srag\Plugins\Opencast\Model\Config\PluginConfig;
 use srag\Plugins\Opencast\Model\User\xoctUser;
-use srag\Plugins\Opencast\DI\OpencastDIC;
 use srag\Plugins\Opencast\Util\Locale\LocaleTrait;
-use srag\Plugins\Opencast\LegacyHelpers\UploadSize;
 use srag\Plugins\Opencast\Container\Init;
 
 /**
@@ -141,8 +139,6 @@ class xoctConfFormGUI extends ilPropertyFormGUI
 
     /**
      * @param $item
-     *
-     * @return bool
      */
     public static function checkItem($item): bool
     {
@@ -196,16 +192,6 @@ class xoctConfFormGUI extends ilPropertyFormGUI
         );
         $te->setInfo($this->getLocaleString(PluginConfig::F_CURL_MAX_UPLOADSIZE . '_info'));
         $te->setRequired(true);
-        $this->addItem($te);
-
-        $te = new ilNumberInputGUI(
-            $this->getLocaleString(PluginConfig::F_CURL_CHUNK_SIZE),
-            PluginConfig::F_CURL_CHUNK_SIZE
-        );
-        $te->setInfo($this->getLocaleString(PluginConfig::F_CURL_CHUNK_SIZE . '_info'));
-        $te->setRequired(true);
-        $te->setMinValue(1, true);
-        $te->setMaxValue(UploadSize::getUploadSizeLimitBytes() / 1024 / 1024 / 2, true);
         $this->addItem($te);
 
         $te = new ilTextInputGUI(
@@ -708,6 +694,18 @@ class xoctConfFormGUI extends ilPropertyFormGUI
         $se_cb_sub->setOptions($algorithms);
         $se_cb_sub->setValue(PluginConfig::getConfig(PluginConfig::F_JWT_SECURITY_ALG) ?? $default);
         $cb->addSubItem($se_cb_sub);
+
+        // JWT Iframe Player Path
+        $te_iframe_player_path_cb_sub = new ilTextInputGUI($this->getLocaleString('jwt_security_iframe_player_path'), PluginConfig::F_JWT_SECURITY_IFRAME_PLAYER_PATH);
+        $te_iframe_player_path_cb_sub->setInfo($this->getLocaleString('jwt_security_iframe_player_path_info'));
+        $cb->addSubItem($te_iframe_player_path_cb_sub);
+
+        // JWT Basic Roles
+        $te_basic_roles_cb_sub = new ilTextInputGUI($this->getLocaleString('jwt_security_basic_roles'), PluginConfig::F_JWT_SECURITY_BASIC_ROLES);
+        $te_basic_roles_cb_sub->setInfo($this->getLocaleString('jwt_security_basic_roles_info'));
+        $te_basic_roles_cb_sub->setMulti(true);
+        $te_basic_roles_cb_sub->setInlineStyle('min-width:250px');
+        $cb->addSubItem($te_basic_roles_cb_sub);
 
         // JWT Studio Roles.
         $te_studio_cb_sub = new ilTextInputGUI($this->getLocaleString('jwt_security_studio_roles'), PluginConfig::F_JWT_SECURITY_STUDIO_ROLES);

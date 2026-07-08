@@ -38,7 +38,6 @@ class PluginConfig extends ActiveRecord
     public const F_CURL_USERNAME = 'curl_username';
     public const F_CURL_PASSWORD = 'curl_password';
     public const F_CURL_MAX_UPLOADSIZE = 'curl_max_upload_size';
-    public const F_CURL_CHUNK_SIZE = 'curl_chunk_size';
     public const F_WORKFLOW = 'workflow';
     public const F_WORKFLOW_UNPUBLISH = 'workflow_unpublish';
     public const F_EULA = 'eula';
@@ -133,7 +132,7 @@ class PluginConfig extends ActiveRecord
     public const PAELLA_DEFAULT_PATH = 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/js/opencast/src/Paella/config/config.json';
     public const PAELLA_RESOURCES_PATH = 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/js/opencast/src/Paella/resources';
     public const PAELLA_LANG_PATH = 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/js/opencast/src/Paella/lang';
-    public const PAELLA_DEFAULT_THEME = 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/js/opencast/src/Paella/default_theme/opencast_theme.json';
+    public const PAELLA_DEFAULT_THEME = 'opencast';
     public const PAELLA_DEFAULT_THEME_LIVE = 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/js/opencast/src/Paella/default_theme/opencast_live_theme.json';
     public const PAELLA_DEFAULT_THEME_LIVE_BUFFERED = 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/js/opencast/src/Paella/default_theme/opencast_live_buffered_theme.json';
 
@@ -154,6 +153,8 @@ class PluginConfig extends ActiveRecord
     public const F_JWT_SECURITY_PK = 'jwt_security_privatekey';
     public const F_JWT_SECURITY_EXP = 'jwt_security_expiration';
     public const F_JWT_SECURITY_ALG = 'jwt_security_algorithm';
+    public const F_JWT_SECURITY_IFRAME_PLAYER_PATH = 'jwt_security_iframe_player_path';
+    public const F_JWT_SECURITY_BASIC_ROLES = 'jwt_security_basic_roles';
     public const F_JWT_SECURITY_STUDIO_ROLES = 'jwt_security_studio_roles';
     public const F_JWT_SECURITY_EDITOR_ROLES = 'jwt_security_editor_roles';
     public const F_JWT_SECURITY_ANNOTATION_TOOL_ROLES = 'jwt_security_annotation_tool_roles';
@@ -165,9 +166,6 @@ class PluginConfig extends ActiveRecord
         self::F_ROLE_USER_PREFIX,
         self::F_ROLE_OWNER_PREFIX
     ];
-    /**
-     * @var array
-     */
     public static array $groups = [
         self::F_GROUP_PRODUCERS,
         self::F_GROUP_STUDIO,
@@ -227,8 +225,8 @@ class PluginConfig extends ActiveRecord
             $name = $node->getElementsByTagName('name')->item(0)->nodeValue;
             $value = $node->getElementsByTagName('value')->item(0)->nodeValue;
             if ($name) {
-                $value = (is_array(json_decode($value)))
-                    ? json_decode($value)
+                $value = (is_array(json_decode((string) $value)))
+                    ? json_decode((string) $value)
                     : $value;
                 PluginConfig::set($name, $value);
             }
@@ -468,7 +466,7 @@ class PluginConfig extends ActiveRecord
         $config = $domxml->appendChild(new DOMElement('opencast_settings'));
 
         $xml_info = $config->appendChild(new DOMElement('info'));
-        $xml_info->appendChild(new DOMElement('plugin_version', (string) $opencast_plugin->getVersion()));
+        $xml_info->appendChild(new DOMElement('plugin_version', $opencast_plugin->getVersion()));
         $xml_info->appendChild(new DOMElement('plugin_db_version', (string) $plugin_infos->getCurrentDBVersion()));
         $xml_info->appendChild(
             new DOMElement('config_version', (string) PluginConfig::getConfig(PluginConfig::F_CONFIG_VERSION))
