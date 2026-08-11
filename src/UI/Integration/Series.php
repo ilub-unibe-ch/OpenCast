@@ -243,6 +243,9 @@ class Series implements DataRetrieval
                             '10' => '10',
                             '20' => '20',
                             '50' => '50',
+                            '100' => '100',
+                            '200' => '200',
+                            '400' => '400'
                         ],
                         (string) $page_size
                     )
