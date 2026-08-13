@@ -44,7 +44,8 @@ class ChatGUI
         $protocol = ConfigAR::getConfig(ConfigAR::C_PROTOCOL);
         $host = ConfigAR::getConfig(ConfigAR::C_HOST);
 
-        $script_open_chat = ILIAS_HTTP_PATH . '/'. $this->plugin->getrelativeDirectory(). '/src/Chat/GUI/open_chat.php';
+        $relativepath = $this->plugin->getRelativeDirectory();
+        $script_open_chat = ILIAS_HTTP_PATH . '/' . ltrim($relativepath, './') . '/src/Chat/GUI/open_chat.php';
         $url = $script_open_chat .
             '?port=' . $port .
             '&token=' . $this->token->getToken()->toString() .
@@ -60,8 +61,6 @@ class ChatGUI
             $this->plugin->getRelativeDirectory() . '/src/Chat/node/public/images/refresh_icon.png'
         );
         $chat_css_path = $this->plugin->getRelativeDirectory() . '/src/Chat/node/public/css/chat.css';
-        $template->setVariable('BOOTSTRAP', 'https://'. $host. '/css/bootstrap.min.css');
-
         if (!$async) {
             $this->template->addCss($chat_css_path);
         } else {
