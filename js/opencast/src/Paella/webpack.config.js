@@ -28,6 +28,20 @@ module.exports = {
                 }
             },
             {
+                test: /paella-core\.css$/,
+                include: path.resolve(
+                    __dirname,
+                    'node_modules/@asicupv/paella-core/dist'
+                ),
+                enforce: 'pre',
+                use: {
+                    loader: path.resolve(
+                        __dirname,
+                        'loaders/scope-paella-core-css.js'
+                    )
+                }
+            },
+            {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
             },
